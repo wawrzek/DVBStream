@@ -1,0 +1,218 @@
+Patch by Adrian Bridgett <adrian@smop.co.uk> that replaces the poll()
+call by a select() one, leading to typically 15% reduction in CPU usage.
+See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=360292
+
+diff -ruN dvbstream-0.6+cvs20060501-old/CHANGES dvbstream-0.6+cvs20060501/CHANGES
+--- dvbstream-0.6+cvs20060501-old/CHANGES	2006-05-02 10:08:11.000000000 +0100
++++ dvbstream-0.6+cvs20060501/CHANGES	2006-05-02 11:06:41.000000000 +0100
+@@ -1,3 +1,14 @@
++v0.5.1 - 31st March 2006:
++-------------------------
++Changed by Adrian Bridgett from poll() to select().
++Saves ~1500 accept() calls/second which translates into approx 15% CPU saving. 
++
++
++v0.5 - ??
++---------
++Unknown
++
++
+ V0.4 - 29th October 2001:
+ -------------------------
+ 
+diff -ruN dvbstream-0.6+cvs20060501-old/dvbstream.c dvbstream-0.6+cvs20060501/dvbstream.c
+--- dvbstream-0.6+cvs20060501-old/dvbstream.c	2006-05-02 10:10:02.000000000 +0100
++++ dvbstream-0.6+cvs20060501/dvbstream.c	2006-05-02 11:13:40.000000000 +0100
+@@ -30,7 +30,7 @@
+ #include <ctype.h>
+ #include <sys/ioctl.h>
+ #include <sys/time.h>
+-#include <sys/poll.h>
++#include <sys/select.h>
+ #include <sys/stat.h>
+ #include <resolv.h>
+ #include <fcntl.h>
+@@ -143,29 +143,16 @@
+   }
+ }
+ 
+-void make_nonblock(int f) {
+-  int oldflags;
+-
+-  if ((oldflags=fcntl(f,F_GETFL,0)) < 0) {
+-    perror("F_GETFL");
+-  }
+-  oldflags|=O_NONBLOCK;
+-  if (fcntl(f,F_SETFL,oldflags) < 0) {
+-    perror("F_SETFL");
+-  }
+-}
+-
+ typedef enum {STREAM_ON,STREAM_OFF} state_t;
+ 
+ 
+-  int socketIn, ns;
++  int socketIn, ns = -1;
+   int pids[MAX_CHANNELS];
+   int pestypes[MAX_CHANNELS];
+   unsigned char hi_mappids[8192];
+   unsigned char lo_mappids[8192];
+   int fd_frontend;
+   int pid,pid2;
+-  int connectionOpen;
+   int fromlen;
+   char hostname[64];
+   char in_ch;
+@@ -188,33 +175,31 @@
+ #define TS_SIZE 188
+ #define IN_SIZE TS_SIZE
+ 
++int accept_telnet() {
++  /* Open a new telnet session if a client is trying to connect */
++  if ((ns = accept(socketIn, (struct sockaddr *)&fsin, &fromlen)) < 0) {
++    perror ("server: accept");
++    return -1;
++  }
++
++  printf("Opened connection\n");
++  writes(ns,"220-DVBSTREAM - ");
++  writes(ns,hostname);
++  writes(ns,"\r\nDONE\r\n");
++  return 1;
++}
++
+ int process_telnet() {
+-  char cmd[1024];
+-  int cmd_i=0;
++  static char cmd[1024] = "\0";
++  static int cmd_i=0;
+   int i;
+   char* ch;
+   dmx_pes_type_t pestype;
+   unsigned long freq=0;
+   unsigned long srate=0;
+ 
+-    /* Open a new telnet session if a client is trying to connect */
+-    if (ns==-1) {
+-      if ((ns = accept(socketIn, (struct sockaddr *)&fsin, &fromlen)) > 0) {
+-        make_nonblock(ns);
+-        cmd_i=0;      
+-        cmd[0]=0;
+-        printf("Opened connection\n");
+-        writes(ns,"220-DVBSTREAM - ");
+-        writes(ns,hostname);
+-        writes(ns,"\r\nDONE\r\n");
+-        connectionOpen=1;
+-      }
+-    }
+-
+-    /* If a telnet session is open, receive and process any input */
+-    if (connectionOpen) {
+       /* Read in at most a line of text - any ctrl character ends the line */
+-      while (read(ns,&in_ch,1)>0) {
++      while (recv(ns,&in_ch,1,MSG_DONTWAIT)>0) {
+           if (in_ch < 32) break;
+           /* Prevent buffer overflows */
+           if (cmd_i < 1024-1) {
+@@ -229,7 +214,6 @@
+             writes(ns,"DONE\r\n");
+             close(ns);
+             ns=-1;
+-            connectionOpen=0; 
+             printf("Closed connection\n");
+           } else if (strcasecmp(cmd,"STOP")==0) {
+             writes(ns,"STOP\n");
+@@ -320,7 +304,6 @@
+           writes(ns,"DONE\r\n");
+         }
+       }
+-    }
+     return(0);
+ }
+ 
+@@ -422,7 +405,8 @@
+   int fd_dvr;
+   int i,j;
+   unsigned char buf[MTU];
+-  struct pollfd pfds[2];  // DVR device and Telnet connection
++  fd_set select_fds;      // DVR device, telnet socket and connection
++  int num_fds;
+   unsigned int secs = -1;
+   unsigned long freq=0;
+   unsigned long srate=0;
+@@ -839,7 +823,6 @@
+     f = fopen(pids_map[i].filename, "w+b");
+     if (f != NULL) {
+       pids_map[i].fd = fileno(f);
+-      make_nonblock(pids_map[i].fd);
+       fprintf(stderr, "Open file %s\n", pids_map[i].filename);
+     } else {
+       pids_map[i].fd = -1;
+@@ -945,30 +928,52 @@
+     exit(1);
+   }
+ 
+-  make_nonblock(socketIn);
+-
+   if (listen(socketIn, 1) < 0) {
+     perror("server: listen");
+     exit(1);
+   }
+ #endif
+ 
+-  connectionOpen=0;
+-  ns=-1;
+-  pfds[0].fd=fd_dvr;
+-  pfds[0].events=POLLIN|POLLPRI;
+-  pfds[1].events=POLLIN|POLLPRI;
+-
+   while ( !Interrupted) {
+-    /* Poll the open file descriptors */
+-    if (ns==-1) {
+-        poll(pfds,1,500);
+-    } else {
+-        pfds[1].fd=ns;  // This can change
+-        poll(pfds,2,500);
++     // setup select descriptor set
++     // we always wait on DVR device and
++     // either the socket or telnet session
++     // only one session at a time ATM
++     // in fact, process_telnet can only handle one session
++     FD_ZERO(&select_fds);
++     FD_SET(fd_dvr,&select_fds);
++     if (ns == -1) {
++       FD_SET(socketIn,&select_fds);
++     } else {
++       FD_SET(ns,&select_fds);
++     }
++    
++     num_fds = (socketIn >= ns) ? socketIn : ns;
++     num_fds++;
++     if (select(num_fds, &select_fds, NULL, NULL, NULL) < 0) {
++       if (errno == EINTR) {
++       continue;
++       }
++     perror("server: select");
++     exit(1);
++    }
++     
++    if (FD_ISSET(socketIn, &select_fds)) {
++       if (ns != -1) {
++         fprintf(stderr,"Multiple telnets not supported");
++       } else {
++         accept_telnet();
++       }
++
+     }
+ 
+-    process_telnet();  // See if there is an incoming telnet connection
++    if ((ns != -1) && FD_ISSET(ns, &select_fds)) {
++      process_telnet();
++    }
++
++    if (! FD_ISSET(fd_dvr, &select_fds)) {
++       continue;
++    }
+ 
+     if (output_type==RTP_TS) {
+       /* Attempt to read 188 bytes from /dev/ost/dvr */

@@ -1,0 +1,99 @@
+dvbstream (0.6+cvs20060501-6local1) lucid; urgency=low
+
+  * Update dvbstram.c - changes the number of supported a adapters
+
+ -- root <root@sca-sat02.zeeoffice>  Mon, 26 Mar 2012 12:49:17 +0100
+
+dvbstream (0.6+cvs20060501-6) unstable; urgency=low
+
+  * Update debian/watch - fixes debian-watch-file-missing-version
+    - debian/watch fails to report upstream's version (Closes: #449818)
+  * Add debian/compat - fixes debian-rules-sets-DH_COMPAT
+  * Update debian/dvbstream.1 - fixes hyphen-used-as-minus-sign
+  * Update debian/dirs - fixes package-contains-empty-directory
+  * Add Homepage: to debian/control
+
+ -- Mark Purcell <msp@debian.org>  Sun, 28 Sep 2008 12:02:58 +1000
+
+dvbstream (0.6+cvs20060501-5) unstable; urgency=low
+
+  * New maintainer. (Closes: #412480: ITA: dvbstream -- Broadcast a DVB
+    Transport stream over a LAN - Debian Bug report logs)
+  * Thanks to Alastair McKinstry for maintenance todate
+
+ -- Mark Purcell <msp@debian.org>  Tue, 13 Mar 2007 22:17:49 +0000
+
+dvbstream (0.6+cvs20060501-4) unstable; urgency=low
+
+  * New maintainer. (Closes: #412480: ITA: dvbstream -- Broadcast a DVB
+    Transport stream over a LAN - Debian Bug report logs)
+  * Thanks to Alastair McKinstry for maintenance todate
+  * Lintian cleanup: copyright-lists-upstream-authors-with-dh_make-
+    boilerplate
+
+ -- Mark Purcell <msp@debian.org>  Tue, 13 Mar 2007 21:06:45 +0000
+
+dvbstream (0.6+cvs20060501-3) unstable; urgency=low
+
+  * Use ts_filter rather than ts2es in radio scripts, as ts2es is no
+    longer available. Closes: #357109.
+  * Move to Standards-Version: 3.7.2. No changes required.
+  * No longer Suggest: the dvb-mpegtools  package, which is no longer
+    supplied. Instead Suggest: dvbtune.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Fri, 22 Sep 2006 11:50:29 +0100
+
+dvbstream (0.6+cvs20060501-2) unstable; urgency=low
+
+  * Include Build-Depends: dbs. Closes: #365746, #365748. 
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Tue,  2 May 2006 20:40:30 +0100
+
+dvbstream (0.6+cvs20060501-1) unstable; urgency=low
+
+  * New upstream release: Include 0.6 + patches from CVS.
+  * Build-depends: dvb-dev replaced by linux-kernel-headers.
+  * Patches from sourceforge tracker: 
+    - Add defaults for Australia to source;
+    - Add DVB-C tuning patch to avoid bug that causes tuning to fail in
+      Finland.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Tue,  2 May 2006 11:37:00 +0100
+
+dvbstream (0.5-2) unstable; urgency=low
+
+  * Update the URL in debian/copyright to point to current location. 
+    Also update debian/watch.
+  * Make dvbstream(1) match dvbstream binary. Closes: #325595.
+  * Move to DH_COMPAT=5
+  * Move to Standards-Version: 3.6.2. No changes required.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Sun,  5 Mar 2006 18:17:44 +0000
+
+dvbstream (0.5-1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Sun, 15 Feb 2004 07:33:18 +0000
+
+dvbstream (0.4pre2+cvs20030920-1) unstable; urgency=low
+
+  * Build against the new dvb-dev.
+  * New Upstream snapshot.
+  * Move to Standards-Version: 3.6.1.0; no changes required.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Sat, 20 Sep 2003 22:22:46 +0100
+
+dvbstream (0.4pre2-2) unstable; urgency=low
+
+  * Change maintainer email to mckinstry@debian.org
+  * Move to Standards-Version: 3.6.0; no changes required.
+
+ -- Alastair McKinstry <mckinstry@debian.org>  Wed, 30 Jul 2003 13:07:26 +0100
+
+dvbstream (0.4pre2-1) unstable; urgency=low
+
+  * Initial Release (Closes: #152084).
+
+ -- Alastair McKinstry <mckinstry@computer.org>  Mon, 29 Jul 2002 16:51:50 +0100
+

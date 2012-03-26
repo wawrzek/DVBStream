@@ -1,0 +1,78 @@
+#!/usr/bin/make -f
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+package=dvbstream
+#VERSION=$(shell LC_ALL=C dpkg-parsechangelog | grep ^Version: | sed 's/^Version: *//')
+VERSION=0.6+cvs20060501
+
+# The DBS rules
+include /usr/share/dbs/dbs-build.mk
+# convenient way to set architecture specification strings
+# the ifeq condition is here to allow them to be overridden
+# from the command line
+ifeq (,$(DEB_BUILD_GNU_TYPE))
+ include /usr/share/dbs/dpkg-arch.mk
+endif
+
+ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -g
+endif
+ifeq (,$(findstring nostrip,$(DEB_BUILD_OPTIONS)))
+	INSTALL_PROGRAM += -s
+endif
+
+BUILD_DIR=$(SOURCE_DIR)/${package}-${VERSION}
+
+build: ${STAMP_DIR}/build-stamp
+
+${STAMP_DIR}/build-stamp:  ${patched}
+	dh_testdir
+	$(MAKE) -C ${BUILD_DIR}
+	touch ${STAMP_DIR}/build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -rf ${STAMP_DIR} ${SOURCE_DIR}
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+	dh_install --sourcedir=${BUILD_DIR} \
+	  dvbstream dumprtp rtpfeed ts_filter usr/bin	
+
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installdocs
+	dh_installman debian/dvbstream.1 \
+			debian/rtpfeed.1  \
+			debian/ts_filter.1 \
+			debian/dumprtp.1
+	dh_installexamples 
+	dh_installchangelogs ${BUILD_DIR}/CHANGES
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install

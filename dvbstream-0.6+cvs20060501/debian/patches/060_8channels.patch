@@ -1,0 +1,39 @@
+Change the number of available adapters to 8
+
+Patch by Wawrzek Niewodniczanski.
+
+--- dvbstream-0.6+cvs20060501/dvbstream.c	2006-05-02 10:10:02.000000000 +0100
++++ dvbstream-0.6+cvs20060501/dvbstream.c.new	2012-03-26 12:30:34.000000000 +0100
+@@ -74,9 +74,9 @@
+ /* Signal handling code shamelessly copied from VDR by Klaus Schmidinger 
+    - see http://www.cadsoft.de/people/kls/vdr/index.htm */
+ 
+-char* frontenddev[4]={"/dev/dvb/adapter0/frontend0","/dev/dvb/adapter1/frontend0","/dev/dvb/adapter2/frontend0","/dev/dvb/adapter3/frontend0"};
+-char* dvrdev[4]={"/dev/dvb/adapter0/dvr0","/dev/dvb/adapter1/dvr0","/dev/dvb/adapter2/dvr0","/dev/dvb/adapter3/dvr0"};
+-char* demuxdev[4]={"/dev/dvb/adapter0/demux0","/dev/dvb/adapter1/demux0","/dev/dvb/adapter2/demux0","/dev/dvb/adapter3/demux0"};
++char* frontenddev[8]={"/dev/dvb/adapter0/frontend0","/dev/dvb/adapter1/frontend0","/dev/dvb/adapter2/frontend0","/dev/dvb/adapter3/frontend0", "/dev/dvb/adapter4/frontend0","/dev/dvb/adapter5/frontend0","/dev/dvb/adapter6/frontend0","/dev/dvb/adapter7/frontend0"};
++char* dvrdev[8]={"/dev/dvb/adapter0/dvr0","/dev/dvb/adapter1/dvr0","/dev/dvb/adapter2/dvr0","/dev/dvb/adapter3/dvr0","/dev/dvb/adapter4/dvr0","/dev/dvb/adapter5/dvr0","/dev/dvb/adapter6/dvr0","/dev/dvb/adapter7/dvr0"};
++char* demuxdev[8]={"/dev/dvb/adapter0/demux0","/dev/dvb/adapter1/demux0","/dev/dvb/adapter2/demux0","/dev/dvb/adapter3/demux0","/dev/dvb/adapter4/demux0","/dev/dvb/adapter5/demux0","/dev/dvb/adapter6/demux0","/dev/dvb/adapter7/demux0"};
+ 
+ int card=0;
+ long now;
+@@ -484,7 +484,7 @@
+     fprintf(stderr,"-s N        Symbol rate (DVB-S or DVB-C)\n");
+ 
+     fprintf(stderr,"\nAdvanced tuning options:\n\n");
+-    fprintf(stderr,"-c [0-3]    Use DVB card #[0-3]\n");
++    fprintf(stderr,"-c [0-7]    Use DVB card #[0-7]\n");
+     fprintf(stderr,"-D [0-4AB]  DiSEqC command (0=none)\n\n");
+     fprintf(stderr,"-I [0|1|2]  0=Spectrum Inversion off, 1=Spectrum Inversion on, 2=auto\n");
+     fprintf(stderr,"-qam X      DVB-T/C and ATSC modulation - 16%s, 32%s, 64%s, 128%s or 256%s\n",(CONSTELLATION_DEFAULT==QAM_16 ? " (default)" : ""),(CONSTELLATION_DEFAULT==QAM_32 ? " (default)" : ""),(CONSTELLATION_DEFAULT==QAM_64 ? " (default)" : ""),(CONSTELLATION_DEFAULT==QAM_128 ? " (default)" : ""),(CONSTELLATION_DEFAULT==QAM_256 ? " (default)" : ""));
+@@ -628,8 +628,8 @@
+       } else if (strcmp(argv[i],"-c")==0) {
+         i++;
+         card=atoi(argv[i]);
+-        if ((card < 0) || (card > 3)) {
+-          fprintf(stderr,"ERROR: card parameter must be between 0 and 4\n");
++        if ((card < 0) || (card > 7)) {
++          fprintf(stderr,"ERROR: card parameter must be between 0 and 7\n");
+         }
+       } else if (strcmp(argv[i],"-v")==0) {
+         pestype=DMX_PES_VIDEO;

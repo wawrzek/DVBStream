@@ -1,0 +1,63 @@
+Patch in Sourceforge patch tracker by Matthew Walker to add defaults for
+Australia. While not currently used, track them here and add a patch later
+to dvbstream to pick defaults based on current locale. -- amck, 2006502
+
+diff -ruN dvbstream-0.6+cvs20060501-old/dvb_defaults.h dvbstream-0.6+cvs20060501/dvb_defaults.h
+--- dvbstream-0.6+cvs20060501-old/dvb_defaults.h	2006-05-02 10:10:02.000000000 +0100
++++ dvbstream-0.6+cvs20060501/dvb_defaults.h	2006-05-02 11:29:55.000000000 +0100
+@@ -44,6 +44,7 @@
+ //#define UK
+ //#define FINLAND
+ //#define FINLAND2
++//#define AUSTRALIA
+ 
+ /* UK defines are at the end, as a default option */
+ 
+@@ -73,6 +74,20 @@
+ 
+ #endif
+ 
++#ifdef AUSTRALIA
++
++/* Australian settings (well some are common) see:
++ * <http://www.dba.org.au/index.asp?sectionID=76> */
++#define DVB_T_LOCATION		    "in Australia"
++#define BANDWIDTH_DEFAULT           BANDWIDTH_7_MHZ
++#define HP_CODERATE_DEFAULT         FEC_3_4
++#define CONSTELLATION_DEFAULT       QAM_64
++#define TRANSMISSION_MODE_DEFAULT   TRANSMISSION_MODE_2K
++#define GUARD_INTERVAL_DEFAULT      GUARD_INTERVAL_1_16
++#define HIERARCHY_DEFAULT           HIERARCHY_NONE
++
++#endif
++
+ #if defined (UK) && defined (HP_CODERATE_DEFAULT)
+ #error Multible countries defined
+ #endif
+diff -ruN dvbstream-0.6+cvs20060501-old/Makefile dvbstream-0.6+cvs20060501/Makefile
+--- dvbstream-0.6+cvs20060501-old/Makefile	2006-05-02 10:10:02.000000000 +0100
++++ dvbstream-0.6+cvs20060501/Makefile	2006-05-02 11:29:47.000000000 +0100
+@@ -18,6 +18,10 @@
+   CFLAGS += -DFINLAND2
+ endif
+ 
++ifdef AUSTRALIA
++  CFLAGS += -DAUSTRALIA
++endif
++
+ all: $(OBJS)
+ 
+ dvbstream: dvbstream.c rtp.o tune.o mpegtools/ctools.o mpegtools/remux.o mpegtools/transform.o mpegtools/ringbuffy.o
+diff -ruN dvbstream-0.6+cvs20060501-old/README dvbstream-0.6+cvs20060501/README
+--- dvbstream-0.6+cvs20060501-old/README	2006-05-02 10:10:02.000000000 +0100
++++ dvbstream-0.6+cvs20060501/README	2006-05-02 11:29:49.000000000 +0100
+@@ -35,7 +35,8 @@
+ 
+ If you are using dvbtune for DVB-T in Finland, you should replace the
+ "make" command with "make FINLAND=1". or "make FINLAND2=1" (see the
+-comments in the dvb_defaults.h file for details).
++comments in the dvb_defaults.h file for details). If in Australia
++use "make AUSTRALIA=1".
+ 
+ USAGE - SERVER
+ 

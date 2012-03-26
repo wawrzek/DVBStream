@@ -1,0 +1,17 @@
+Patch by  Paul Martin <pm@debian.org> to fix the '-n secs' option.
+See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=325595
+
+diff -ruN dvbstream-0.6+cvs20060501-old/dvbstream.c dvbstream-0.6+cvs20060501/dvbstream.c
+--- dvbstream-0.6+cvs20060501-old/dvbstream.c	2006-05-02 11:17:49.000000000 +0100
++++ dvbstream-0.6+cvs20060501/dvbstream.c	2006-05-02 11:20:55.000000000 +0100
+@@ -934,7 +934,9 @@
+   }
+ #endif
+ 
+-  while ( !Interrupted) {
++  /* Set up timer */
++  if (secs > 0) alarm(secs);
++  while ( !Interrupted && ((secs == 0) || (now < secs))) {
+      // setup select descriptor set
+      // we always wait on DVR device and
+      // either the socket or telnet session

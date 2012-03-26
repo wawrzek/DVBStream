@@ -1,0 +1,16 @@
+Source: dvbstream
+Section: misc
+Priority: optional
+Maintainer: Mark Purcell <msp@debian.org>
+Build-Depends: debhelper (>> 5.0.0), linux-kernel-headers, dbs
+Standards-Version: 3.7.2
+Homepage: http://sourceforge.net/projects/dvbtools/
+
+Package: dvbstream
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Suggests: dvbtune, mpg123
+Description: Broadcast a DVB Transport stream over a LAN 
+ DVBstream is based on the ts-rtp package available at
+ http://www.linuxtv.org.  It broadcasts a (subset of a) DVB transport
+ stream over a LAN using the rtp protocol. 

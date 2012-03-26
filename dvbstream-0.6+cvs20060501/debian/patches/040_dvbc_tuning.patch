@@ -1,0 +1,21 @@
+Ensure that tuning obeys the command-line parameter rather than
+hard-coded value in tune.c 
+
+In tune.c, the QAM tuning parameter INVERSION_OFF
+causes tuning to fail (Cinergy 1200 DVB-C budget card,
+linux 2.6.12, HTV cable network in Finland). 
+
+Patch from patch tracker in Sourceforge. thanks to anonymous.
+
+diff -ruN dvbstream-0.6+cvs20060501-old/tune.c dvbstream-0.6+cvs20060501/tune.c
+--- dvbstream-0.6+cvs20060501-old/tune.c	2006-05-02 10:13:09.000000000 +0100
++++ dvbstream-0.6+cvs20060501/tune.c	2006-05-02 11:32:33.000000000 +0100
+@@ -269,7 +269,7 @@
+     case FE_QAM:
+       fprintf(stderr,"tuning DVB-C to %d, srate=%d\n",freq,srate);
+       feparams.frequency=freq;
+-      feparams.inversion=INVERSION_OFF;
++      feparams.inversion=specInv;
+       feparams.u.qam.symbol_rate = srate;
+       feparams.u.qam.fec_inner = FEC_AUTO;
+       feparams.u.qam.modulation = modulation;

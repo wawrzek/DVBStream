@@ -1,0 +1,4 @@
+version=3
+opts=dversionmangle=s/\+cvs.*// \
+http://sf.net/dvbtools/dvbstream-(.*)\.tar\.gz	debian 	uupdate
+

@@ -1,0 +1,28 @@
+Format: 1.8
+Date: Mon, 26 Mar 2012 12:49:17 +0100
+Source: dvbstream
+Binary: dvbstream
+Architecture: source i386
+Version: 0.6+cvs20060501-6local1
+Distribution: lucid
+Urgency: low
+Maintainer: Mark Purcell <msp@debian.org>
+Changed-By: root <root@sca-sat02.zeeoffice>
+Description: 
+ dvbstream  - Broadcast a DVB Transport stream over a LAN
+Changes: 
+ dvbstream (0.6+cvs20060501-6local1) lucid; urgency=low
+ .
+   * Update dvbstram.c - changes the number of supported a adapters
+Checksums-Sha1: 
+ adc96d4d51db862cb847752d10f846ef50e3db1f 885 dvbstream_0.6+cvs20060501-6local1.dsc
+ 1de53df93add586a1804b7a10e3e033235eca2fe 81148 dvbstream_0.6+cvs20060501-6local1.diff.gz
+ 3966931431ecb8f614a3a1a8f216cca73f6c9ccf 62148 dvbstream_0.6+cvs20060501-6local1_i386.deb
+Checksums-Sha256: 
+ d2f692b6e7abcf90b80e6df88168bd78960b017f8c6d45190cafdcb2ee4b2a69 885 dvbstream_0.6+cvs20060501-6local1.dsc
+ 76d650af41a824d83bd57a5af8c6644679f99c808eb95a7c3bb5b81e7215b514 81148 dvbstream_0.6+cvs20060501-6local1.diff.gz
+ 44741785f8655796ffc054840e50dbce611c432d3eba87dd288d0fbaa3a573a2 62148 dvbstream_0.6+cvs20060501-6local1_i386.deb
+Files: 
+ c980a29802249aaf4beb0654a57421a3 885 misc optional dvbstream_0.6+cvs20060501-6local1.dsc
+ f8bf47d0bbd3169bbba4659b6faed123 81148 misc optional dvbstream_0.6+cvs20060501-6local1.diff.gz
+ d0f47c520b7c8e14bcec498cc0a36ef4 62148 misc optional dvbstream_0.6+cvs20060501-6local1_i386.deb

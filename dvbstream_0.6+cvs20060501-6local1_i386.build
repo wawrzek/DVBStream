@@ -1,0 +1,278 @@
+ dpkg-buildpackage -rfakeroot -D -us -uc
+dpkg-buildpackage: warning: using a gain-root-command while being root
+dpkg-buildpackage: set CFLAGS to default value: -g -O2
+dpkg-buildpackage: set CPPFLAGS to default value: 
+dpkg-buildpackage: set LDFLAGS to default value: -Wl,-Bsymbolic-functions
+dpkg-buildpackage: set FFLAGS to default value: -g -O2
+dpkg-buildpackage: set CXXFLAGS to default value: -g -O2
+dpkg-buildpackage: source package dvbstream
+dpkg-buildpackage: source version 0.6+cvs20060501-6local1
+dpkg-buildpackage: source changed by root <root@sca-sat02.zeeoffice>
+dpkg-buildpackage: host architecture i386
+ fakeroot debian/rules clean
+dh_testdir
+dh_testroot
+rm -rf stampdir build-tree
+dh_clean
+ dpkg-source -b dvbstream-0.6+cvs20060501
+dpkg-source: info: using source format `1.0'
+dpkg-source: info: building dvbstream using existing dvbstream_0.6+cvs20060501.orig.tar.gz
+dpkg-source: info: building dvbstream in dvbstream_0.6+cvs20060501-6local1.diff.gz
+dpkg-source: warning: executable mode 0755 of 'dvbstream-0.6+cvs20060501/rtptv.sh' will not be represented in diff
+dpkg-source: warning: newly created empty file 'dvbstream-0.6+cvs20060501/build-stamp' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'dvbstream-0.6+cvs20060501/do_route.sh' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'dvbstream-0.6+cvs20060501/rtpradio.sh' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'dvbstream-0.6+cvs20060501/TELNET/virgin.sh' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'dvbstream-0.6+cvs20060501/TELNET/cnn.sh' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'dvbstream-0.6+cvs20060501/TELNET/itn.sh' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'dvbstream-0.6+cvs20060501/TELNET/svdrpsend.pl' will not be represented in diff
+dpkg-source: warning: executable mode 0755 of 'dvbstream-0.6+cvs20060501/TELNET/xfm.sh' will not be represented in diff
+dpkg-source: warning: the diff modifies the following upstream files: 
+ dvbstream-0.6+cvs20060501/CHANGES
+ dvbstream-0.6+cvs20060501/COPYING
+ dvbstream-0.6+cvs20060501/Makefile
+ dvbstream-0.6+cvs20060501/README
+ dvbstream-0.6+cvs20060501/TELNET/README
+ dvbstream-0.6+cvs20060501/TELNET/cnn.sh
+ dvbstream-0.6+cvs20060501/TELNET/itn.sh
+ dvbstream-0.6+cvs20060501/TELNET/svdrpsend.pl
+ dvbstream-0.6+cvs20060501/TELNET/virgin.sh
+ dvbstream-0.6+cvs20060501/TELNET/xfm.sh
+ dvbstream-0.6+cvs20060501/do_route.sh
+ dvbstream-0.6+cvs20060501/dumprtp.c
+ dvbstream-0.6+cvs20060501/dvb_defaults.h
+ dvbstream-0.6+cvs20060501/dvbstream.c
+ dvbstream-0.6+cvs20060501/dvbstream.c.new
+ dvbstream-0.6+cvs20060501/mpegtools/ctools.c
+ dvbstream-0.6+cvs20060501/mpegtools/ctools.h
+ dvbstream-0.6+cvs20060501/mpegtools/remux.c
+ dvbstream-0.6+cvs20060501/mpegtools/remux.h
+ dvbstream-0.6+cvs20060501/mpegtools/ringbuffy.c
+ dvbstream-0.6+cvs20060501/mpegtools/ringbuffy.h
+ dvbstream-0.6+cvs20060501/mpegtools/transform.c
+ dvbstream-0.6+cvs20060501/mpegtools/transform.h
+ dvbstream-0.6+cvs20060501/rtp.c
+ dvbstream-0.6+cvs20060501/rtp.h
+ dvbstream-0.6+cvs20060501/rtpfeed.c
+ dvbstream-0.6+cvs20060501/rtpradio.sh
+ dvbstream-0.6+cvs20060501/rtptv.sh
+ dvbstream-0.6+cvs20060501/server.c
+ dvbstream-0.6+cvs20060501/ts_filter.c
+ dvbstream-0.6+cvs20060501/tune.c
+ dvbstream-0.6+cvs20060501/tune.h
+dpkg-source: info: use the '3.0 (quilt)' format to have separate and documented changes to upstream files, see dpkg-source(1)
+dpkg-source: info: building dvbstream in dvbstream_0.6+cvs20060501-6local1.dsc
+ debian/rules build
+test -d stampdir || mkdir stampdir
+touch "stampdir/source.created"
+touch "stampdir/vars.sh"
+/bin/bash -e /usr/share/dbs/internal/lib "SOURCE_DIR=\"build-tree\"" "STAMP_DIR=\"stampdir\"" "VARS_FILE=\"stampdir/vars.sh\"" "STRIP_LEVEL=0" source_unpack
+Extracting upstream tarball ./dvbstream-0.6+cvs20060501.tar.gz successful.
+touch "stampdir/source.unpack"
+/bin/bash -e /usr/share/dbs/internal/lib "SOURCE_DIR=\"build-tree\"" "STAMP_DIR=\"stampdir\"" "VARS_FILE=\"stampdir/vars.sh\"" "STRIP_LEVEL=0" patch_apply
+Applying patch debian/patches/030_dvbstream_australia.patch successful.
+Applying patch debian/patches/040_dvbc_tuning.patch successful.
+Applying patch debian/patches/050_radio.patch successful.
+Applying patch debian/patches/060_9channels.patch successful.
+touch "stampdir/patchapply"
+dh_testdir
+/usr/bin/make -C build-tree/dvbstream-0.6+cvs20060501
+make[1]: Entering directory `/home/zeebox/dvbstream/dvbstream-0.6+cvs20060501/build-tree/dvbstream-0.6+cvs20060501'
+gcc -I ../DVB/include -g -Wall -O2 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -c -o rtp.o rtp.c
+gcc -I ../DVB/include -g -Wall -O2 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -c -o tune.o tune.c
+In file included from tune.h:7,
+                 from tune.c:36:
+dvb_defaults.h:98:2: warning: #warning No DVB-T country defined in dvb_defaults.h
+dvb_defaults.h:99:2: warning: #warning defaulting to UK
+dvb_defaults.h:100:2: warning: #warning Ignore this if using Satellite or Cable
+tune.c: In function ‘do_diseqc’:
+tune.c:111: warning: unused variable ‘voltage’
+tune.c: In function ‘check_status’:
+tune.c:131: warning: unused variable ‘status’
+tune.c: In function ‘tune_it’:
+tune.c:212: warning: ‘hi_lo’ may be used uninitialized in this function
+tune.c:213: warning: ‘base’ may be used uninitialized in this function
+gcc -g -Wall -O2 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE   -c -o mpegtools/ctools.o mpegtools/ctools.c
+mpegtools/ctools.c: In function ‘write_pes’:
+mpegtools/ctools.c:283: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/ctools.c: In function ‘write_ts’:
+mpegtools/ctools.c:709: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/ctools.c: In function ‘write_ps’:
+mpegtools/ctools.c:1021: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/ctools.c: In function ‘write_mpg’:
+mpegtools/ctools.c:2010: warning: pointer targets in assignment differ in signedness
+mpegtools/ctools.c:2016: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/ctools.c: In function ‘split_mpg’:
+mpegtools/ctools.c:2064: warning: ignoring return value of ‘read’, declared with attribute warn_unused_result
+mpegtools/ctools.c:2077: warning: ignoring return value of ‘read’, declared with attribute warn_unused_result
+mpegtools/ctools.c: In function ‘cut_mpg’:
+mpegtools/ctools.c:2148: warning: ignoring return value of ‘read’, declared with attribute warn_unused_result
+mpegtools/ctools.c:2158: warning: ignoring return value of ‘read’, declared with attribute warn_unused_result
+mpegtools/ctools.c: In function ‘url2host’:
+mpegtools/ctools.c:2235: warning: pointer targets in passing argument 1 of ‘strlen’ differ in signedness
+/usr/include/string.h:397: note: expected ‘const char *’ but argument is of type ‘uint8_t *’
+mpegtools/ctools.c:2235: warning: pointer targets in passing argument 1 of ‘strlen’ differ in signedness
+/usr/include/string.h:397: note: expected ‘const char *’ but argument is of type ‘uint8_t *’
+mpegtools/ctools.c:2235: warning: pointer targets in passing argument 1 of ‘__builtin_strcmp’ differ in signedness
+mpegtools/ctools.c:2235: note: expected ‘const char *’ but argument is of type ‘uint8_t *’
+mpegtools/ctools.c:2235: warning: pointer targets in passing argument 1 of ‘strlen’ differ in signedness
+/usr/include/string.h:397: note: expected ‘const char *’ but argument is of type ‘uint8_t *’
+mpegtools/ctools.c:2235: warning: pointer targets in passing argument 1 of ‘__builtin_strcmp’ differ in signedness
+mpegtools/ctools.c:2235: note: expected ‘const char *’ but argument is of type ‘uint8_t *’
+mpegtools/ctools.c:2235: warning: pointer targets in passing argument 1 of ‘__builtin_strcmp’ differ in signedness
+mpegtools/ctools.c:2235: note: expected ‘const char *’ but argument is of type ‘uint8_t *’
+mpegtools/ctools.c:2235: warning: pointer targets in passing argument 1 of ‘__builtin_strcmp’ differ in signedness
+mpegtools/ctools.c:2235: note: expected ‘const char *’ but argument is of type ‘uint8_t *’
+mpegtools/ctools.c:2235: warning: pointer targets in passing argument 1 of ‘strncmp’ differ in signedness
+/usr/include/string.h:145: note: expected ‘const char *’ but argument is of type ‘uint8_t *’
+mpegtools/ctools.c:2238: warning: pointer targets in passing argument 1 of ‘strlen’ differ in signedness
+/usr/include/string.h:397: note: expected ‘const char *’ but argument is of type ‘uint8_t *’
+mpegtools/ctools.c:2238: warning: pointer targets in passing argument 1 of ‘__strdup’ differ in signedness
+/usr/include/bits/string2.h:1303: note: expected ‘const char *’ but argument is of type ‘uint8_t *’
+mpegtools/ctools.c:2264: warning: pointer targets in return differ in signedness
+mpegtools/ctools.c:2266: warning: pointer targets in passing argument 1 of ‘atoi’ differ in signedness
+/usr/include/stdlib.h:284: note: expected ‘const char *’ but argument is of type ‘uint8_t *’
+mpegtools/ctools.c:2270: warning: pointer targets in return differ in signedness
+mpegtools/ctools.c: In function ‘http_open’:
+mpegtools/ctools.c:2291: warning: pointer targets in passing argument 1 of ‘url2host’ differ in signedness
+mpegtools/ctools.c:2228: note: expected ‘uint8_t *’ but argument is of type ‘char *’
+mpegtools/ctools.c:2323: warning: pointer targets in passing argument 2 of ‘write_all’ differ in signedness
+mpegtools/ctools.c:2193: note: expected ‘uint8_t *’ but argument is of type ‘char *’
+mpegtools/ctools.c:2330: warning: pointer targets in passing argument 2 of ‘read_all’ differ in signedness
+mpegtools/ctools.c:2207: note: expected ‘uint8_t *’ but argument is of type ‘char *’
+mpegtools/ctools.c:2344: warning: pointer targets in passing argument 2 of ‘read_all’ differ in signedness
+mpegtools/ctools.c:2207: note: expected ‘uint8_t *’ but argument is of type ‘char *’
+gcc -g -Wall -O2 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE   -c -o mpegtools/remux.o mpegtools/remux.c
+mpegtools/remux.c: In function ‘remux’:
+mpegtools/remux.c:905: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/remux.c:949: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/remux.c:958: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/remux.c:967: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/remux.c:976: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/remux.c:988: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/remux.c:1019: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/remux.c:1021: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/remux.c: In function ‘get_video_info’:
+mpegtools/remux.c:468: warning: array subscript is above array bounds
+gcc -g -Wall -O2 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE   -c -o mpegtools/transform.o mpegtools/transform.c
+mpegtools/transform.c: In function ‘pes_filt’:
+mpegtools/transform.c:397: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/transform.c:400: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/transform.c: In function ‘pes_dfilt’:
+mpegtools/transform.c:456: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/transform.c:476: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/transform.c:484: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/transform.c:487: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/transform.c: In function ‘write_out’:
+mpegtools/transform.c:626: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/transform.c: In function ‘insert_pat_pmt’:
+mpegtools/transform.c:832: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/transform.c:833: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/transform.c: In function ‘write_out_es’:
+mpegtools/transform.c:1912: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+mpegtools/transform.c: In function ‘write_out_pes’:
+mpegtools/transform.c:1919: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+gcc -g -Wall -O2 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE   -c -o mpegtools/ringbuffy.o mpegtools/ringbuffy.c
+mpegtools/ringbuffy.c: In function ‘ring_write’:
+mpegtools/ringbuffy.c:62: warning: implicit declaration of function ‘memcpy’
+mpegtools/ringbuffy.c:62: warning: incompatible implicit declaration of built-in function ‘memcpy’
+mpegtools/ringbuffy.c:67: warning: incompatible implicit declaration of built-in function ‘memcpy’
+mpegtools/ringbuffy.c: In function ‘ring_peek’:
+mpegtools/ringbuffy.c:92: warning: incompatible implicit declaration of built-in function ‘memcpy’
+mpegtools/ringbuffy.c:94: warning: incompatible implicit declaration of built-in function ‘memcpy’
+mpegtools/ringbuffy.c: In function ‘ring_read’:
+mpegtools/ringbuffy.c:117: warning: incompatible implicit declaration of built-in function ‘memcpy’
+mpegtools/ringbuffy.c:120: warning: incompatible implicit declaration of built-in function ‘memcpy’
+gcc -I ../DVB/include -g -Wall -O2 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -o dvbstream dvbstream.c rtp.o tune.o mpegtools/ctools.o mpegtools/remux.o mpegtools/transform.o mpegtools/ringbuffy.o
+In file included from tune.h:7,
+                 from dvbstream.c:53:
+dvb_defaults.h:98:2: warning: #warning No DVB-T country defined in dvb_defaults.h
+dvb_defaults.h:99:2: warning: #warning defaulting to UK
+dvb_defaults.h:100:2: warning: #warning Ignore this if using Satellite or Cable
+dvbstream.c:78: warning: excess elements in array initializer
+dvbstream.c:78: warning: (near initialization for ‘dvrdev’)
+dvbstream.c:78: warning: excess elements in array initializer
+dvbstream.c:78: warning: (near initialization for ‘dvrdev’)
+dvbstream.c:78: warning: excess elements in array initializer
+dvbstream.c:78: warning: (near initialization for ‘dvrdev’)
+dvbstream.c:78: warning: excess elements in array initializer
+dvbstream.c:78: warning: (near initialization for ‘dvrdev’)
+dvbstream.c:79: warning: excess elements in array initializer
+dvbstream.c:79: warning: (near initialization for ‘demuxdev’)
+dvbstream.c:79: warning: excess elements in array initializer
+dvbstream.c:79: warning: (near initialization for ‘demuxdev’)
+dvbstream.c:79: warning: excess elements in array initializer
+dvbstream.c:79: warning: (near initialization for ‘demuxdev’)
+dvbstream.c:79: warning: excess elements in array initializer
+dvbstream.c:79: warning: (near initialization for ‘demuxdev’)
+dvbstream.c: In function ‘process_telnet’:
+dvbstream.c:202: warning: pointer targets in passing argument 3 of ‘accept’ differ in signedness
+/usr/include/sys/socket.h:214: note: expected ‘socklen_t * __restrict__’ but argument is of type ‘int *’
+dvbstream.c:207: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+dvbstream.c:208: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+dvbstream.c:209: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+dvbstream.c:229: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+dvbstream.c:235: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+dvbstream.c:245: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+dvbstream.c:283: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+dvbstream.c:285: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+dvbstream.c:289: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+dvbstream.c:320: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+dvbstream.c: In function ‘my_write_out’:
+dvbstream.c:351: warning: pointer targets in passing argument 4 of ‘sendrtp2’ differ in signedness
+rtp.h:30: note: expected ‘char *’ but argument is of type ‘uint8_t *’
+dvbstream.c:339: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+dvbstream.c: In function ‘main’:
+dvbstream.c:571: warning: pointer targets in passing argument 1 of ‘strncpy’ differ in signedness
+/usr/include/bits/string3.h:120: note: expected ‘char * __restrict__’ but argument is of type ‘unsigned char *’
+dvbstream.c:912:8: warning: #warning WHAT SHOULD THE PAYLOAD TYPE BE FOR "MPEG-2 PS" ?
+dvbstream.c:992: warning: pointer targets in passing argument 4 of ‘sendrtp2’ differ in signedness
+rtp.h:30: note: expected ‘char *’ but argument is of type ‘unsigned char *’
+dvbstream.c:1022: warning: pointer targets in passing argument 4 of ‘sendrtp2’ differ in signedness
+rtp.h:30: note: expected ‘char *’ but argument is of type ‘unsigned char *’
+dvbstream.c:990: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+dvbstream.c:1018: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+gcc -I ../DVB/include -g -Wall -O2 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -o dumprtp dumprtp.c rtp.o
+dumprtp.c: In function ‘dumprtp’:
+dumprtp.c:48: warning: ignoring return value of ‘write’, declared with attribute warn_unused_result
+gcc -I ../DVB/include -g -Wall -O2 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -o ts_filter ts_filter.c
+ts_filter.c: In function ‘main’:
+ts_filter.c:37: warning: statement with no effect
+ts_filter.c:52: warning: statement with no effect
+gcc -I ../DVB/include -g -Wall -O2 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -o rtpfeed rtpfeed.c rtp.o
+make[1]: Leaving directory `/home/zeebox/dvbstream/dvbstream-0.6+cvs20060501/build-tree/dvbstream-0.6+cvs20060501'
+touch stampdir/build-stamp
+ fakeroot debian/rules binary
+dh_testdir
+dh_testroot
+dh_clean -k
+dh_installdirs
+dh_install --sourcedir=build-tree/dvbstream-0.6+cvs20060501 \
+	  dvbstream dumprtp rtpfeed ts_filter usr/bin	
+dh_testdir
+dh_testroot
+dh_installdocs
+dh_installman debian/dvbstream.1 \
+			debian/rtpfeed.1  \
+			debian/ts_filter.1 \
+			debian/dumprtp.1
+dh_installexamples 
+dh_installchangelogs build-tree/dvbstream-0.6+cvs20060501/CHANGES
+dh_link
+dh_strip
+dh_compress
+dh_fixperms
+dh_installdeb
+dh_shlibdeps
+dh_gencontrol
+dh_md5sums
+dh_builddeb
+dpkg-deb: building package `dvbstream' in `../dvbstream_0.6+cvs20060501-6local1_i386.deb'.
+ dpkg-genchanges  >../dvbstream_0.6+cvs20060501-6local1_i386.changes
+dpkg-genchanges: not including original source code in upload
+dpkg-buildpackage: binary and diff upload (original source NOT included)
+Now running lintian...
+warning: lintian's authors do not recommend running it with root privileges!
+W: dvbstream source: missing-debian-source-format
+W: dvbstream source: ancient-standards-version 3.7.2 (current is 3.8.4)
+Finished running lintian.
